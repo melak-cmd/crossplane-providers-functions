@@ -19,6 +19,13 @@ jobs:
     - name: Set up Helm
       uses: azure/setup-helm@v1
 
+    - name: Install k3d
+      run: |
+        curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
+
+    - name: Create k3d cluster
+      run: k3d cluster create mycluster
+
     - name: Lint Helm chart
       run: helm lint ./providers-functions
 
