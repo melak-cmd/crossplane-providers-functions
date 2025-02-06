@@ -20,10 +20,10 @@ jobs:
       uses: azure/setup-helm@v1
 
     - name: Lint Helm chart
-      run: helm lint ./path/to/helm/chart
+      run: helm lint ./providers-functions
 
     - name: Install Helm chart
-      run: helm install my-release ./path/to/helm/chart --dry-run
+      run: helm install my-release ./providers-functions --dry-run
 
     - name: Test Helm chart
       run: helm test my-release
