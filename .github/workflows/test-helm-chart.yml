@@ -29,13 +29,13 @@ jobs:
     - name: Initialize Helm
       run: |
         helm init
-        helm repo add stable https://charts.helm.sh/stable
+        helm repo add crossplane-stable https://charts.crossplane.io/stable
 
     - name: Install Crossplane
       run: |
         kubectl create namespace crossplane-system
-        helm repo add crossplane-stable https://charts.crossplane.io/stable
         helm repo update
+        
 
     - name: Lint Helm chart
       run: helm lint ./providers-functions
