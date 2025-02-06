@@ -1,0 +1,11 @@
+# Default values for providers-functions.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+providers:
+- name: provider-harbor
+  image: xpkg.upbound.io/upbound/provider-harbor:v0.1.2
+  deploymentRuntimeConfig:
+    apiVersion: pkg.crossplane.io/v1beta1
+    kind: DeploymentRuntimeConfig
+    name: harbor-runtime-config
