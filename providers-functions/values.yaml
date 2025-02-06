@@ -8,4 +8,12 @@ providers:
   deploymentRuntimeConfig:
     apiVersion: pkg.crossplane.io/v1beta1
     kind: DeploymentRuntimeConfig
-    name: harbor-runtime-config
+    name: provider-harbor
+
+functions:
+- name: function-auto-ready
+  image: xpkg.upbound.io/upbound/function-auto-ready:v0.1.2
+  deploymentRuntimeConfig:
+    apiVersion: pkg.crossplane.io/v1beta1
+    kind: DeploymentRuntimeConfig
+    name: function-auto-ready 
