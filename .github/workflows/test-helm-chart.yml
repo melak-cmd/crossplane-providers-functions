@@ -28,7 +28,6 @@ jobs:
 
     - name: Initialize Helm
       run: |
-        helm init
         helm repo add crossplane-stable https://charts.crossplane.io/stable
 
     - name: Install Crossplane
