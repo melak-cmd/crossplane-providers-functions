@@ -33,6 +33,12 @@ jobs:
         k3d kubeconfig get mycluster > $HOME/.kube/config
         export KUBECONFIG=$HOME/.kube/config
 
+    - name: Install Crossplane
+      run: |
+        helm repo add crossplane-stable https://charts.crossplane.io/stable
+        helm repo update
+        helm install crossplane --namespace crossplane-system crossplane-stable/crossplane --create-namespace
+
     - name: Deploy Helm Chart
       run: |
         helm template my-release ./providers-functions \
