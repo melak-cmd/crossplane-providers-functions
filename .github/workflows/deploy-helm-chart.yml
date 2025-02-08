@@ -33,11 +33,6 @@ jobs:
         k3d kubeconfig get mycluster > $HOME/.kube/config
         export KUBECONFIG=$HOME/.kube/config
 
-    - name: Configure Kubernetes
-      uses: azure/k8s-set-context@v3
-      with:
-        kubeconfig: ${{ secrets.KUBE_CONFIG }}  # Use the kubeconfig stored in GitHub secrets
-
     - name: Deploy Helm Chart
       run: |
         helm template my-release ./providers-functions \
