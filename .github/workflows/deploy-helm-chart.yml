@@ -26,7 +26,7 @@ jobs:
         curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
 
     - name: Create k3d cluster
-      run: k3d cluster create mycluster
+      run: k3d cluster create mycluster --k3s-arg="--disable=traefik@server:0"
 
     - name: Configure kubectl
       run: |
