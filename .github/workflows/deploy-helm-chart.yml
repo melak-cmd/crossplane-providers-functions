@@ -26,7 +26,7 @@ jobs:
         curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
 
     - name: Create k3d cluster
-      run: k3d cluster create 
+      run: k3d cluster create mycluster
 
     - name: Configure kubectl
       run: |
@@ -45,4 +45,4 @@ jobs:
 
 
     - name: delete k3d cluster
-      run: k3d cluster delete 
+      run: k3d cluster delete mycluster
