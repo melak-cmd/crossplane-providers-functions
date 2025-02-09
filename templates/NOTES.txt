@@ -1,0 +1,7 @@
+{{- range .Values.providers.items }}
+{{- if .kubeconfig }}
+The provider {{ .name }} is configured to use a kubeconfig secret.
+{{- else }}
+The provider {{ .name }} is configured to use InjectedIdentity.
+{{- end }}
+{{ end }}

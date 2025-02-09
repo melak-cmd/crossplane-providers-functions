@@ -1,0 +1,29 @@
+global:
+  namespace: crossplane-system
+  labels:
+    app: crossplane
+
+providers:
+  annotations:
+    example.com/provider-annotation: "provider-value"
+  items:
+    - name: provider-kubernetes
+      package: xpkg.upbound.io/upbound/provider-kubernetes:v0.16.0
+      kubeconfig: false
+      secretRef:
+        namespace: crossplane-system
+        name: cluster-config
+        key: kubeconfig
+
+functions:
+  annotations:
+    example.com/function-annotation: "function-value"
+  items:
+    - name: crossplane-contrib-function-environment-configs
+      package: xpkg.upbound.io/crossplane-contrib/function-environment-configs:v0.2.0
+    - name: crossplane-contrib-function-go-templating
+      package: xpkg.upbound.io/crossplane-contrib/function-go-templating:v0.9.0
+      annotations:
+        render.crossplane.io/runtime: Development
+    - name: crossplane-contrib-function-auto-ready
+      package: xpkg.upbound.io/crossplane-contrib/function-auto-ready:v0.4.0

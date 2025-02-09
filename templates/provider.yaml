@@ -1,0 +1,85 @@
+{{- $namespace := .Values.global.namespace -}}
+{{- $labels := .Values.global.labels -}}
+{{- $annotations := .Values.providers.annotations -}}
+{{ range .Values.providers.items }}
+---
+apiVersion: pkg.crossplane.io/v1
+kind: Provider
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- range $key, $value := $labels }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
+  annotations:
+    {{- range $key, $value := $annotations }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
+spec:
+  package: {{ .package }}
+  runtimeConfigRef:
+    apiVersion: pkg.crossplane.io/v1beta1
+    kind: DeploymentRuntimeConfig
+    name: {{ .name }}
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: DeploymentRuntimeConfig
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- range $key, $value := $labels }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
+  annotations:
+    {{- range $key, $value := $annotations }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
+spec:
+  serviceAccountTemplate:
+    metadata:
+      name: {{ .name }}
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: {{ .name }}-cluster-admin
+  labels:
+    {{- range $key, $value := $labels }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
+  annotations:
+    {{- range $key, $value := $annotations }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
+subjects:
+  - kind: ServiceAccount
+    name: {{ .name }}
+    namespace: {{ $namespace }}
+roleRef:
+  kind: ClusterRole
+  name: cluster-admin
+  apiGroup: rbac.authorization.k8s.io
+{{- if .kubeconfig }}
+---
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: kubernetes-provider
+spec:
+  credentials:
+    source: Secret
+    secretRef:
+      namespace: {{ $namespace }}
+      name: {{ .secretRef.name }}
+      key: {{ .secretRef.key }}
+{{- else }}
+---
+apiVersion: kubernetes.crossplane.io/v1alpha1
+kind: ProviderConfig
+metadata:
+  name: kubernetes-provider
+spec:
+  credentials:
+    source: InjectedIdentity
+{{- end }}
+{{ end }}

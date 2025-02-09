@@ -1,0 +1,25 @@
+{{- $labels := .Values.global.labels -}}
+{{- $annotations := .Values.functions.annotations -}}
+{{ range .Values.functions.items }}
+---
+apiVersion: pkg.crossplane.io/v1beta1
+kind: Function
+metadata:
+  name: {{ .name }}
+  labels:
+    {{- range $key, $value := $labels }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
+  annotations:
+    {{- range $key, $value := $annotations }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
+spec:
+  package: {{ .package }}
+  {{- if .annotations }}
+  annotations:
+    {{- range $key, $value := .annotations }}
+    {{ $key }}: {{ $value }}
+    {{- end }}
+  {{- end }}
+{{ end }}
