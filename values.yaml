@@ -11,7 +11,6 @@ providers:
       package: xpkg.upbound.io/upbound/provider-kubernetes:v0.16.0
       kubeconfig: false
       secretRef:
-        namespace: crossplane-system
         name: cluster-config
         key: kubeconfig
 
