@@ -65,6 +65,8 @@ apiVersion: kubernetes.crossplane.io/v1alpha1
 kind: ProviderConfig
 metadata:
   name: kubernetes-provider
+  annotations:
+    "helm.sh/hook": "crd-install"
 spec:
   credentials:
     source: Secret
@@ -78,6 +80,8 @@ apiVersion: kubernetes.crossplane.io/v1alpha1
 kind: ProviderConfig
 metadata:
   name: kubernetes-provider
+  annotations:
+    "helm.sh/hook": "crd-install"
 spec:
   credentials:
     source: InjectedIdentity
