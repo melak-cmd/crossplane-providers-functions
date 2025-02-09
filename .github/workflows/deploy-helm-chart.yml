@@ -41,7 +41,7 @@ jobs:
 
     - name: Deploy Helm Chart
       run: |
-        helm install providers-functions .           
+        helm install providers-functions . --namespace crossplane-system
 
 
     - name: delete k3d cluster
