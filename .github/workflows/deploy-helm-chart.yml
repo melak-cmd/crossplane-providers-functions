@@ -26,7 +26,7 @@ jobs:
         curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
 
     - name: Create k3d cluster
-      run: k3d cluster create --k3s-arg "--no-deploy=traefik@server:*" --k3s-arg "--no-deploy=servicelb@server:*"
+      run: k3d cluster create 
 
     - name: Configure kubectl
       run: |
