@@ -4,20 +4,20 @@ global:
     app: crossplane
 
 providers:
-  # annotations:
-  #   example.com/provider-annotation: "provider-value"
+  annotations: {}
+    # example.com/provider-annotation: "provider-value"
   items:
     - name: provider-kubernetes
       package: xpkg.upbound.io/upbound/provider-kubernetes:v0.16.0
       kubeconfig: false
-      secretRef:
-        name: cluster-config
-        key: kubeconfig
+      secretRef: {}
+        # name: cluster-config
+        # key: kubeconfig
 
 functions:
-  # annotations:
-  #   example.com/function-annotation: "function-value"
-  # items:
+  annotations: {}
+  # #   example.com/function-annotation: "function-value"
+  items: []
   #   - name: crossplane-contrib-function-environment-configs
   #     package: xpkg.upbound.io/crossplane-contrib/function-environment-configs:v0.2.0
   #   - name: crossplane-contrib-function-go-templating
