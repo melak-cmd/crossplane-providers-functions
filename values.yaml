@@ -22,7 +22,7 @@ functions:
       package: xpkg.upbound.io/crossplane-contrib/function-environment-configs:v0.2.0
     - name: crossplane-contrib-function-go-templating
       package: xpkg.upbound.io/crossplane-contrib/function-go-templating:v0.9.0
-      annotations:
-        render.crossplane.io/runtime: Development
+      # annotations:
+      #   render.crossplane.io/runtime: Development
     - name: crossplane-contrib-function-auto-ready
       package: xpkg.upbound.io/crossplane-contrib/function-auto-ready:v0.4.0
