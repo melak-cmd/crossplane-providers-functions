@@ -27,6 +27,8 @@ spec:
 apiVersion: pkg.crossplane.io/v1beta1
 kind: DeploymentRuntimeConfig
 metadata:
+  annotations:
+    "helm.sh/hook": "crd-install"
   name: {{ .name }}
   labels:
     {{- range $key, $value := $labels }}
