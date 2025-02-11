@@ -58,27 +58,15 @@ jobs:
     - name: Delete k3d cluster
       run: k3d cluster delete ${{ env.CLUSTER_NAME }}
 
-    - name: Get chart version from last commit
-      id: get-version
-      run: |
-        CHART_VERSION=$(git log -1 --pretty=%B | grep -oP '(?<=version: )\d+\.\d+\.\d+' || echo "0.0.0")
-        echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
-
-    - name: Configure Git user
+    - name: Configure Git user, get chart version, create tag, and increment version
+      if: success()
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
-
-    - name: Create tag with chart version
-      if: success()
-      run: |
-        git tag -a "v${{ env.CHART_VERSION }}" -m "Release version ${{ env.CHART_VERSION }}"
-        git push origin "v${{ env.CHART_VERSION }}"
-
-    - name: Increment chart version
-      if: success()
-      run: |
-        CHART_VERSION=${{ env.CHART_VERSION }}
+        CHART_VERSION=$(git log -1 --pretty=%B | grep -oP '(?<=version: )\d+\.\d+\.\d+' || echo "0.0.0")
+        echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
+        git tag -a "v${CHART_VERSION}" -m "Release version ${CHART_VERSION}"
+        git push origin "v${CHART_VERSION}"
         NEW_VERSION=$(echo $CHART_VERSION | awk -F. -v OFS=. '{$NF++;print}')
         sed -i "s/^version: .*/version: $NEW_VERSION/" Chart.yaml
         git add Chart.yaml
