@@ -37,6 +37,17 @@ jobs:
     - name: Run Helm unit tests
       run: helm unittest ./
 
+    - name: Install Crossplane
+      run: |
+        kubectl create namespace crossplane-system
+        helm repo add crossplane-stable https://charts.crossplane.io/stable
+        helm repo update
+        helm install crossplane --namespace crossplane-system crossplane-stable/crossplane
+
+    - name: Wait for Crossplane to be ready
+      run: |
+        kubectl wait --for=condition=available --timeout=600s deployment/crossplane --namespace crossplane-system
+
     - name: Render Helm templates and dry run with kubectl
       run: helm template . -g | kubectl apply -f - --dry-run=server
 
