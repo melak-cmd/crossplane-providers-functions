@@ -21,6 +21,13 @@ jobs:
       with:
         version: 'v3.12.0'  # Specify the Helm version you want to use
 
+    - name: Install k3d
+      run: |
+        curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
+
+    - name: Create k3d cluster without Traefik
+      run: k3d cluster create mycluster --k3s-arg "--disable=traefik@server:0"
+
     - name: Helm lint
       run: helm lint ./
 
@@ -29,3 +36,9 @@ jobs:
 
     - name: Run Helm unit tests
       run: helm unittest ./
+
+    - name: Render Helm templates and dry run with kubectl
+      run: helm template . -g | kubectl apply -f - --dry-run=server
+
+    - name: Delete k3d cluster
+      run: k3d cluster delete mycluster
