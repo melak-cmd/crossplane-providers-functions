@@ -57,3 +57,22 @@ jobs:
 
     - name: Delete k3d cluster
       run: k3d cluster delete ${{ env.CLUSTER_NAME }}
+
+    - name: Create tag with chart version
+      if: success()
+      run: |
+        CHART_VERSION=$(grep '^version:' Chart.yaml | awk '{print $2}')
+        git tag -a "v$CHART_VERSION" -m "Release version $CHART_VERSION"
+        git push origin "v$CHART_VERSION"
+
+    - name: Increment chart version
+      if: success()
+      run: |
+        CHART_VERSION=$(grep '^version:' Chart.yaml | awk '{print $2}')
+        NEW_VERSION=$(echo $CHART_VERSION | awk -F. -v OFS=. '{$NF++;print}')
+        sed -i "s/^version: .*/version: $NEW_VERSION/" Chart.yaml
+        git config --global user.name "github-actions[bot]"
+        git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git add Chart.yaml
+        git commit -m "Increment chart version to $NEW_VERSION"
+        git push origin main
