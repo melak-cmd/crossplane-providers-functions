@@ -60,9 +60,12 @@ jobs:
 
     - name: Configure Git user, get chart version, create tag, and increment version
       if: success()
+      env:
+        GH_PAT: ${{ secrets.GH_PAT }}
       run: |
         git config --global user.name "github-actions[bot]"
         git config --global user.email "github-actions[bot]@users.noreply.github.com"
+        git remote set-url origin https://x-access-token:${GH_PAT}@github.com/${{ github.repository }}
         CHART_VERSION=$(git log -1 --pretty=%B | grep -oP '(?<=version: )\d+\.\d+\.\d+' || echo "0.0.0")
         echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
         git tag -a "v${CHART_VERSION}" -m "Release version ${CHART_VERSION}"
