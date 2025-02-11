@@ -61,7 +61,7 @@ jobs:
     - name: Get chart version from last commit
       id: get-version
       run: |
-        CHART_VERSION=$(git log -1 --pretty=%B | grep -oP '(?<=version: )\d+\.\d+\.\d+')
+        CHART_VERSION=$(git log -1 --pretty=%B | grep -oP '(?<=version: )\d+\.\d+\.\d+' || echo "0.0.0")
         echo "CHART_VERSION=$CHART_VERSION" >> $GITHUB_ENV
 
     - name: Create tag with chart version
