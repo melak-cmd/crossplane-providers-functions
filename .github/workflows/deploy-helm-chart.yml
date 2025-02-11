@@ -21,27 +21,11 @@ jobs:
       with:
         version: 'v3.12.0'  # Specify the Helm version you want to use
 
-    - name: Install k3d
-      run: |
-        curl -s https://raw.githubusercontent.com/rancher/k3d/main/install.sh | bash
+    - name: Helm lint
+      run: helm lint ./
 
-    - name: Create k3d cluster
-      run: k3d cluster create mycluster --k3s-arg="--disable=traefik@server:0"
+    - name: Install Helm unittest plugin
+      run: helm plugin install https://github.com/quintush/helm-unittest
 
-    - name: Configure kubectl
-      run: |
-        k3d kubeconfig get mycluster > $HOME/.kube/config
-        export KUBECONFIG=$HOME/.kube/config
-
-    - name: Install Crossplane
-      run: |
-        helm repo add crossplane-stable https://charts.crossplane.io/stable
-        helm repo update
-        helm install crossplane --namespace crossplane-system crossplane-stable/crossplane --create-namespace
-
-    - name: Deploy Helm Chart
-      run: |
-        helm template providers-functions . 
-
-
-     
+    - name: Run Helm unit tests
+      run: helm unittest ./

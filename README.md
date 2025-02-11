@@ -17,15 +17,21 @@ To use the functions in this project, import them into your Crossplane configura
 ```typescript
 import { exampleFunction } from 'crossplane-providers-functions';
 
-// ...existing code...
-
 exampleFunction();
 ```
+
+## Values
+
+The following table lists the configurable parameters of the chart and their default values.
+
+| Parameter        | Description                           | Default           |
+|------------------|---------------------------------------|-------------------|
+| `image.repository`| Image repository                      | `nginx`           |
+| `image.tag`      | Image tag                              | `latest`          |
+| `image.pullPolicy`| Image pull policy                     | `IfNotPresent`    |
+| `service.type`   | Type of service                        | `ClusterIP`       |
+| `service.port`   | Service port                           | `80`              |
 
 ## Contributing
 
 We welcome contributions! Please fork the repository and submit a pull request with your changes.
-
-## License
-
-This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
